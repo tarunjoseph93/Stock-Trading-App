@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Stock Broker App</string>
+    <string name="btn_click">Click here!</string>
+    <string name="search">Search</string>
+    <string name="stock_item_name_placeholder">Some Text here</string>
+    <string name="stock_item_currency_placeholder">GBP</string>
+    <string name="stock_item_price_placeholder">21.99</string>
+    <string name="stock_details_head">Stock Details</string>
+    <string name="stock_item_currency_placeholder_label">Price listed currency:</string>
+    <string name="stock_item_price_placeholder_label">Price of stock:</string>
+    <string name="buy_share_button">Buy Share</string>
+    <string name="number_of_available_shares_placeholder_label">No. of shares with you:</string>
+    <string name="number_of_available_shares_placeholder">0</string>
+    <string name="auto_convert_button">Auto-Convert Currency</string>
+    <string name="select_currency_conversion_placeholder_label">Convert currency to:</string>
+    <string name="select_currency_conversion_placeholder">INR</string>
+    <string name="list_my_shares">My Shares</string>
+</resources>
