@@ -11,8 +11,10 @@
     <string name="buy_share_button">Buy Share</string>
     <string name="number_of_available_shares_placeholder_label">No. of shares with you:</string>
     <string name="number_of_available_shares_placeholder">0</string>
-    <string name="auto_convert_button">Auto-Convert Currency</string>
+    <string name="auto_convert_button">Convert Currency</string>
     <string name="select_currency_conversion_placeholder_label">Convert currency to:</string>
-    <string name="select_currency_conversion_placeholder">NIL</string>
+    <string name="select_currency_conversion_placeholder">GBP</string>
     <string name="list_my_shares">My Shares</string>
+    <string name="currency_rate_placeholder_label">Rate:</string>
+    <string name="currency_rate_placeholder">1</string>
 </resources>

@@ -31,7 +31,7 @@ public class StockDetailPage extends AppCompatActivity {
 
     private ActivityStockDetailPageBinding bind;
     private String stockSymbol,stockName,stockPrice,stockCurrency;
-    private String currencyCodeSelected, currencyRateSelected;
+    private String currencyCodeSelected, currencyRateSelected = "1";
 
     private static final String FILE_NAME = "MyStocks.json";
 
@@ -65,6 +65,13 @@ public class StockDetailPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+
+        bind.autoConvertCurrencyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                autoConvertCurrency();
             }
         });
 
@@ -183,6 +190,15 @@ public class StockDetailPage extends AppCompatActivity {
         });
     }
 
+    private void autoConvertCurrency() {
+        double rateFrom = Double.parseDouble(stockPrice);
+        double rateTo = Double.parseDouble(currencyRateSelected);
+        double results = rateFrom/rateTo;
+        String res = String.format("%.2f",results);
+        bind.stockDetailsPrice.setText(res);
+        bind.stockDetailsCurrency.setText(bind.stockDetailsCurrencyConvert.getText().toString());
+    }
+
     private void pickCurrencyCode() {
         final CurrencyConversionAPI currencyConversionAPI = new CurrencyConversionAPI(StockDetailPage.this);
         currencyConversionAPI.getAllCurrencyCodes(new CurrencyConversionAPI.VolleyResponseListenerGetCurrencyCodesList() {
@@ -202,12 +218,12 @@ public class StockDetailPage extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         currencyCodeSelected = currencyModelList.get(i).currencyCode;
+                        currencyRateSelected = Double.toString(currencyModelList.get(i).currencyRate);
                         bind.stockDetailsCurrencyConvert.setText(currencyCodeSelected);
+                        bind.stockDetailsCurrencyRate.setText(currencyRateSelected);
                     }
                 }).show();
             }
         });
-
-        
     }
 }

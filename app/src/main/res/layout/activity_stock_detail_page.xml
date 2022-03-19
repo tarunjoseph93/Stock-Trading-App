@@ -180,6 +180,32 @@
                     android:textAlignment="center"
                     android:textColor="@color/black" />
 
+                <TextView
+                    android:id="@+id/stockDetailsCurrencyRateLabel"
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/stockDetailsCurrencyConvertLabel"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/currency_rate_placeholder_label"
+                    android:textAlignment="center"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/stockDetailsCurrencyRate"
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/stockDetailsCurrencyConvert"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/poppins"
+                    android:gravity="center"
+                    android:text="@string/currency_rate_placeholder"
+                    android:textAlignment="center"
+                    android:textColor="@color/black" />
+
             </RelativeLayout>
 
         </LinearLayout>
