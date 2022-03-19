@@ -3,6 +3,8 @@ package com.tj.stockbrokerapp.pages;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Toast;
 
 import com.tj.stockbrokerapp.adapters.StocksListAdapter;
@@ -25,6 +27,22 @@ public class MainActivity extends AppCompatActivity {
 
         loadStocksList();
 
+        bind.stockSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                stockAdap.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
    }
 
     private void loadStocksList() {

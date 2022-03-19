@@ -5,26 +5,31 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tj.stockbrokerapp.databinding.CustomStockRowBinding;
+import com.tj.stockbrokerapp.filters.StockListFilter;
 import com.tj.stockbrokerapp.models.StockModel;
 import com.tj.stockbrokerapp.pages.StockDetailPage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.StocksListHolder> {
+public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.StocksListHolder> implements Filterable {
     private Context con;
-    public List<StockModel> stocksList;
+    public List<StockModel> stocksList, filtList;
     private CustomStockRowBinding bind;
+    private StockListFilter filter;
 
     public StocksListAdapter(Context con, List<StockModel> stocksList) {
         this.con = con;
         this.stocksList = stocksList;
+        this.filtList = stocksList;
     }
 
     @NonNull
@@ -63,6 +68,14 @@ holder.itemView.setOnClickListener(new View.OnClickListener() {
     @Override
     public int getItemCount() {
         return stocksList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if(filter == null) {
+            filter = new StockListFilter(filtList, this);
+        }
+        return filter;
     }
 
     public class StocksListHolder extends RecyclerView.ViewHolder{
