@@ -13,6 +13,6 @@
     <string name="number_of_available_shares_placeholder">0</string>
     <string name="auto_convert_button">Auto-Convert Currency</string>
     <string name="select_currency_conversion_placeholder_label">Convert currency to:</string>
-    <string name="select_currency_conversion_placeholder">INR</string>
+    <string name="select_currency_conversion_placeholder">NIL</string>
     <string name="list_my_shares">My Shares</string>
 </resources>

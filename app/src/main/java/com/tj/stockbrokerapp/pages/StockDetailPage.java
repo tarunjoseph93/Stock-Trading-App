@@ -1,12 +1,18 @@
 package com.tj.stockbrokerapp.pages;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.tj.stockbrokerapp.databinding.ActivityStockDetailPageBinding;
+import com.tj.stockbrokerapp.models.CurrencyModel;
+import com.tj.stockbrokerapp.services.CurrencyConversionAPI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,11 +25,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class StockDetailPage extends AppCompatActivity {
 
     private ActivityStockDetailPageBinding bind;
     private String stockSymbol,stockName,stockPrice,stockCurrency;
+    private String currencyCodeSelected, currencyRateSelected;
 
     private static final String FILE_NAME = "MyStocks.json";
 
@@ -45,6 +53,13 @@ public class StockDetailPage extends AppCompatActivity {
         bind.stockDetailsName.setText(stockName);
         bind.stockDetailsCurrency.setText(stockCurrency);
         bind.stockDetailsPrice.setText(stockPrice);
+
+        bind.stockDetailsCurrencyConvert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickCurrencyCode();
+            }
+        });
 
         bind.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,5 +181,33 @@ public class StockDetailPage extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void pickCurrencyCode() {
+        final CurrencyConversionAPI currencyConversionAPI = new CurrencyConversionAPI(StockDetailPage.this);
+        currencyConversionAPI.getAllCurrencyCodes(new CurrencyConversionAPI.VolleyResponseListenerGetCurrencyCodesList() {
+            @Override
+            public void onError(String message) {
+                Toast.makeText(StockDetailPage.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(List<CurrencyModel> currencyModelList) {
+                String[] currencyArray = new String[currencyModelList.size()];
+                for(int i = 0; i < currencyModelList.size(); i++) {
+                    currencyArray[i] = currencyModelList.get(i).currencyName;
+                }
+                AlertDialog.Builder ad = new AlertDialog.Builder(StockDetailPage.this);
+                ad.setTitle("Choose your currency: ").setItems(currencyArray, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        currencyCodeSelected = currencyModelList.get(i).currencyCode;
+                        bind.stockDetailsCurrencyConvert.setText(currencyCodeSelected);
+                    }
+                }).show();
+            }
+        });
+
+        
     }
 }
