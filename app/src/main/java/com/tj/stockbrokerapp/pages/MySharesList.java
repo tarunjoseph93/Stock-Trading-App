@@ -48,6 +48,13 @@ public class MySharesList extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        bind.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         bind.myStockSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

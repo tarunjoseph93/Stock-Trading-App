@@ -54,6 +54,15 @@ public class StockDetailPage extends AppCompatActivity {
         bind.stockDetailsCurrency.setText(stockCurrency);
         bind.stockDetailsPrice.setText(stockPrice);
 
+        String updatedAvailableShares = null;
+        try {
+            updatedAvailableShares = updateAvailableShares();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        bind.stockDetailsAvailableShares.setText(updatedAvailableShares);
+
         bind.stockDetailsCurrencyConvert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,7 +102,7 @@ public class StockDetailPage extends AppCompatActivity {
                 String timestampModified = Long.toString(timestamp);
                 String response = "";
 
-                if(file.exists()) {
+                if (file.exists()) {
 
                     StringBuffer output = new StringBuffer();
                     try {
@@ -107,6 +116,7 @@ public class StockDetailPage extends AppCompatActivity {
 
                         response = output.toString();
                         bufferedReader.close();
+                        fileReader.close();
 
                         JSONObject jObjParent = new JSONObject(response);
                         JSONArray jArrayMyStocks = jObjParent.getJSONArray("Stocks List");
@@ -118,7 +128,8 @@ public class StockDetailPage extends AppCompatActivity {
 
                             if (symb.equals(stockSymbol)) {
                                 int availableShares1 = jObj.getInt("availableShares");
-                                jObj.put("availableShares", availableShares1 + 1);
+                                int newAvailableShares = availableShares1 + 1;
+                                jObj.put("availableShares", newAvailableShares);
                                 jArrayMyStocks.put(i, jObj);
                             }
                         }
@@ -130,15 +141,14 @@ public class StockDetailPage extends AppCompatActivity {
                         bw.write(jObjNew.toString());
                         bw.close();
                         fw.close();
+                        bind.stockDetailsAvailableShares.setText(updateAvailableShares());
 
                     } catch (IOException e) {
                         e.printStackTrace();
-                    }
-                    catch (JSONException e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(StockDetailPage.this, "File DOES NOT exist!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -180,5 +190,56 @@ public class StockDetailPage extends AppCompatActivity {
                 }).show();
             }
         });
+    }
+
+    private String updateAvailableShares() throws JSONException {
+        String result = "";
+
+        File file = new File(this.getFilesDir(), FILE_NAME);
+        FileReader fileReader = null;
+        BufferedReader bufferedReader = null;
+        String response = "";
+
+        if (file.exists()) {
+            StringBuffer output = new StringBuffer();
+            try {
+                fileReader = new FileReader(file.getAbsolutePath());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            bufferedReader = new BufferedReader(fileReader);
+            String line = "";
+
+            while (true) {
+                try {
+                    if (!((line = bufferedReader.readLine()) != null)) break;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                output.append(line + "\n");
+            }
+
+            response = output.toString();
+            try {
+                bufferedReader.close();
+                fileReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            JSONObject jObjParent = new JSONObject(response);
+            JSONArray jArrayParent = jObjParent.getJSONArray("Stocks List");
+            for (int i = 0; i < jArrayParent.length(); i++) {
+                JSONObject jObj = jArrayParent.getJSONObject(i);
+                String symb = jObj.getString("symbol");
+
+                if (symb.equals(stockSymbol)) {
+                    int availableShares1 = jObj.getInt("availableShares");
+                    result = String.valueOf(availableShares1);
+                }
+            }
+
+        }
+        return result;
     }
 }

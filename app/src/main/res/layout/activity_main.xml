@@ -13,6 +13,17 @@
         android:layout_height="?actionBarSize"
         android:background="@drawable/highlight_bar">
 
+        <TextView
+            android:id="@+id/myStockDetailsHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/poppins"
+            android:text="@string/app_name"
+            android:textColor="@color/off_white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
     </RelativeLayout>
 
     <EditText
@@ -39,6 +50,25 @@
         android:layout_marginEnd="5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/custom_stock_row" />
+
+    <LinearLayout
+        android:id="@+id/stocksListOptionsLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/stocksListButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/list_white"
+            android:text="@string/list_my_shares"
+            android:textColor="@color/off_white"
+            android:background="@color/purple_custom"/>
+
+    </LinearLayout>
 
 
 </RelativeLayout>
