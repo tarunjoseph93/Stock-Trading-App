@@ -87,112 +87,59 @@ public class StockDetailPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FileReader fileReader = null;
-                FileWriter fileWriter = null;
                 BufferedReader bufferedReader = null;
-                BufferedWriter bufferedWriter = null;
 
                 long timestamp = System.currentTimeMillis();
                 String timestampModified = Long.toString(timestamp);
                 String response = "";
 
-                if(!file.exists()){
+                if(file.exists()) {
+
+                    StringBuffer output = new StringBuffer();
                     try {
-                        file.createNewFile();
-                        fileWriter = new FileWriter(file.getAbsoluteFile());
-                        bufferedWriter = new BufferedWriter(fileWriter);
+                        fileReader = new FileReader(file.getAbsolutePath());
+                        bufferedReader = new BufferedReader(fileReader);
+                        String line = "";
 
-                        JSONObject jObjStockData = new JSONObject();
-                        try {
-                            jObjStockData.put("symbol", stockSymbol);
-                            jObjStockData.put("name", stockName);
-                            jObjStockData.put("price", stockPrice);
-                            jObjStockData.put("availableShares", "1");
-                            jObjStockData.put("timestamp", timestampModified);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        while ((line = bufferedReader.readLine()) != null) {
+                            output.append(line + "\n");
                         }
 
-                        JSONArray jArrayMyStocks = new JSONArray();
-                        jArrayMyStocks.put(jObjStockData);
+                        response = output.toString();
+                        bufferedReader.close();
 
-                        JSONObject jObjParent = new JSONObject();
-                        try {
-                            jObjParent.put("My Stocks", jArrayMyStocks);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        JSONObject jObjParent = new JSONObject(response);
+                        JSONArray jArrayMyStocks = jObjParent.getJSONArray("Stocks List");
+
+                        for (int i = 0; i < jArrayMyStocks.length(); i++) {
+
+                            JSONObject jObj = jArrayMyStocks.getJSONObject(i);
+                            String symb = jObj.getString("symbol");
+
+                            if (symb.equals(stockSymbol)) {
+                                int availableShares1 = jObj.getInt("availableShares");
+                                jObj.put("availableShares", availableShares1 + 1);
+                                jArrayMyStocks.put(i, jObj);
+                            }
                         }
+                        JSONObject jObjNew = new JSONObject();
+                        jObjNew.put("Stocks List", jArrayMyStocks);
 
-                        bufferedWriter.write(jObjParent.toString());
-                        bufferedWriter.close();
+                        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                        BufferedWriter bw = new BufferedWriter(fw);
+                        bw.write(jObjNew.toString());
+                        bw.close();
+                        fw.close();
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                //check if JSON Object for symbol exists in JSON Array
-                StringBuffer output = new StringBuffer();
-                try {
-                    fileReader = new FileReader(file.getAbsolutePath());
-                    bufferedReader = new BufferedReader(fileReader);
-                    String line = "";
-
-                    while ((line = bufferedReader.readLine()) != null) {
-                        output.append(line + "\n");
-                    }
-
-                    response = output.toString();
-                    bufferedReader.close();
-
-                    JSONObject jObjParent = new JSONObject(response);
-                    JSONArray jArrayMyStocks = jObjParent.getJSONArray("My Stocks");
-
-                    for(int i = 0; i < jArrayMyStocks.length(); i++) {
-                        fileWriter = new FileWriter(file.getAbsoluteFile());
-
-
-                        JSONObject jObj = jArrayMyStocks.getJSONObject(i);
-                        String symb = jObj.getString("symbol");
-                        if(symb.equals(stockSymbol)) {
-
-                            BufferedWriter bw = new BufferedWriter(fileWriter);
-
-                            String availableShares1 = jObj.getString("availableShares");
-                            int convertedShareString = Integer.parseInt(availableShares1);
-                            int newAvailableShares = convertedShareString + 1;
-                            String newAvailableSharesConverted = String.valueOf(newAvailableShares);
-                            jObj.put("availableShares", newAvailableSharesConverted);
-
-                            jArrayMyStocks.put(i, jObj);
-
-                            jObjParent.put("My Stocks", jArrayMyStocks);
-                            bw.write(jObjParent.toString());
-                            bw.close();
-
-                        }
-                    }
-                    BufferedWriter buffRed = new BufferedWriter(fileWriter);
-
-                    JSONObject jObjStockDataNew = new JSONObject();
-                    try {
-                        jObjStockDataNew.put("symbol", stockSymbol);
-                        jObjStockDataNew.put("name", stockName);
-                        jObjStockDataNew.put("price", stockPrice);
-                        jObjStockDataNew.put("availableShares", "1");
-                        jObjStockDataNew.put("timestamp", timestampModified);
-                    } catch (JSONException e) {
+                    catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    jArrayMyStocks.put(jObjStockDataNew);
-                    JSONObject jObjParentNew = new JSONObject();
-                    jObjParentNew.put("My Stocks", jArrayMyStocks);
-                    buffRed.write(jObjParentNew.toString());
-                    buffRed.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                }
+                else {
+                    Toast.makeText(StockDetailPage.this, "File DOES NOT exist!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -17,6 +17,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -28,13 +34,19 @@ public class MySharesList extends AppCompatActivity {
     private List<MyStockModel> myStockModel;
     private MyStockAdapter myStockAdap;
 
+    private static final String FILE_NAME = "MyStocks.json";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bind = ActivityMySharesListBinding.inflate(getLayoutInflater());
         setContentView(bind.getRoot());
 
-        loadMySharesList();
+        try {
+            loadMySharesList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         bind.myStockSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -62,41 +74,46 @@ public class MySharesList extends AppCompatActivity {
         });
     }
 
-    private void loadMySharesList() {
+    private void loadMySharesList() throws IOException {
         myStockModel = new ArrayList<>();
-        try {
-            JSONObject jObjParent = new JSONObject(loadJSONFromAsset());
-            JSONArray jArrayParent = jObjParent.getJSONArray("Stocks List");
-            for (int i = 0; i < jArrayParent.length(); i++) {
-                MyStockModel myStockMod = new MyStockModel();
-                JSONObject getMyStockItem = (JSONObject) jArrayParent.get(i);
-                myStockMod.setStockName(getMyStockItem.getString("name"));
-                myStockMod.setPrice(getMyStockItem.getDouble("price"));
-                myStockMod.setSymbol(getMyStockItem.getString("symbol"));
-                myStockMod.setCurrency(getMyStockItem.getString("currency"));
-                myStockMod.setAvailableShares(getMyStockItem.getInt("availableShares"));
-                myStockModel.add(myStockMod);
+        File file = new File(this.getFilesDir(), FILE_NAME);
+        FileReader fileReader = null;
+        BufferedReader bufferedReader = null;
+        String response = "";
+
+        if(file.exists()) {
+            StringBuffer output = new StringBuffer();
+            fileReader = new FileReader(file.getAbsolutePath());
+            bufferedReader = new BufferedReader(fileReader);
+            String line = "";
+
+            while ((line = bufferedReader.readLine()) != null) {
+                output.append(line + "\n");
             }
-        } catch(JSONException e) {
-            e.printStackTrace();
-        }
+
+            response = output.toString();
+            bufferedReader.close();
+
+            try {
+                JSONObject jObjParent = new JSONObject(response);
+                JSONArray jArrayParent = jObjParent.getJSONArray("Stocks List");
+                for (int i = 0; i < jArrayParent.length(); i++) {
+                    MyStockModel myStockMod = new MyStockModel();
+                    JSONObject getMyStockItem = (JSONObject) jArrayParent.get(i);
+                    myStockMod.setStockName(getMyStockItem.getString("name"));
+                    myStockMod.setPrice(getMyStockItem.getDouble("price"));
+                    myStockMod.setSymbol(getMyStockItem.getString("symbol"));
+                    myStockMod.setCurrency(getMyStockItem.getString("currency"));
+                    myStockMod.setAvailableShares(getMyStockItem.getInt("availableShares"));
+                    myStockModel.add(myStockMod);
+                }
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+        } //add else load from assets over here
+
         myStockAdap = new MyStockAdapter(MySharesList.this, myStockModel);
         bind.myStockRecyclerView.setAdapter(myStockAdap);
     }
 
-    public String loadJSONFromAsset() {
-        String json = null;
-        try {
-            InputStream is = getAssets().open("MyStocks.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
 }
