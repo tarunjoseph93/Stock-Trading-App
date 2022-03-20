@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentPadding="10dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/card_color">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/myStockName"
+                style="@style/TextAppearance.MaterialComponents.Headline4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="@string/stock_item_name_placeholder"
+                android:textColor="@color/black" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/myStockName">
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/myStockSymbolLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/my_stock_symbol_label"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textStyle="italic"/>
+
+                    <TextView
+                        android:id="@+id/myStockSymbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/my_stock_symbol"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textStyle="italic"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/myStockPriceLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/my_stock_price_label"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textStyle="italic"/>
+
+                    <TextView
+                        android:id="@+id/myStockPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/stock_item_price_placeholder"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textStyle="italic"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/myStockCurrencyLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/my_stock_currency_label"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textStyle="italic"/>
+
+                    <TextView
+                        android:id="@+id/myStockCurrency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/stock_item_currency_placeholder"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textStyle="italic"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/myStockAvailableSharesLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/my_stock_available_shares_label"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textStyle="italic"/>
+
+                    <TextView
+                        android:id="@+id/myStockAvailableShares"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/number_of_available_shares_placeholder"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textStyle="italic"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/myStockTotalLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/my_stock_total_price_label"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textStyle="italic"/>
+
+                    <TextView
+                        android:id="@+id/myStockTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/number_of_available_shares_placeholder"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textStyle="italic"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="5dp">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/myStockSellShareButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_button"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/my_stock_sell_share_button"
+                        android:textColor="@color/off_white"
+                        android:fontFamily="@font/poppins"/>
+
+                </TableRow>
+
+            </TableLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

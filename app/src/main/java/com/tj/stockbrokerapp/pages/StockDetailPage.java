@@ -75,6 +75,14 @@ public class StockDetailPage extends AppCompatActivity {
             }
         });
 
+        bind.listMySharesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(StockDetailPage.this, MySharesList.class);
+                StockDetailPage.this.startActivity(intent1);
+            }
+        });
+
         bind.buyShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

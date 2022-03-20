@@ -3,10 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/tarun/AndroidStudioProjects/StockBrokerApp/app/src/main/res/drawable/custom_button.xml" value="0.151" />
         <entry key="..\:/Users/tarun/AndroidStudioProjects/StockBrokerApp/app/src/main/res/drawable/highlight_bar.xml" value="0.151" />
         <entry key="..\:/Users/tarun/AndroidStudioProjects/StockBrokerApp/app/src/main/res/font/font_custom.xml" value="0.284375" />
         <entry key="..\:/Users/tarun/AndroidStudioProjects/StockBrokerApp/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/tarun/AndroidStudioProjects/StockBrokerApp/app/src/main/res/layout/activity_my_shares_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/tarun/AndroidStudioProjects/StockBrokerApp/app/src/main/res/layout/activity_stock_detail_page.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/tarun/AndroidStudioProjects/StockBrokerApp/app/src/main/res/layout/custom_my_stock_row.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/tarun/AndroidStudioProjects/StockBrokerApp/app/src/main/res/layout/custom_stock_row.xml" value="0.25416666666666665" />
       </map>
     </option>

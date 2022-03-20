@@ -1,0 +1,74 @@
+{
+    "Stocks List": [
+        {
+            "availableShares": 0,
+            "symbol": "UWMC",
+            "price": 3.29,
+            "name": "UWM Holdings Corp.",
+            "currency": "GBP"
+        },
+        {
+            "availableShares": 0,
+            "symbol": "X",
+            "price": 18.58,
+            "name": "United States Steel Corp.",
+            "currency": "GBP"
+        },
+        {
+            "availableShares": 0,
+            "symbol": "QRTEA",
+            "price": 4.63,
+            "name": "Qurate Retail Inc.",
+            "currency": "GBP"
+        },
+        {
+            "availableShares": 0,
+            "symbol": "EBAY",
+            "price": 42.28,
+            "name": "eBay Inc.",
+            "currency": "GBP"
+        },
+        {
+            "availableShares": 0,
+            "symbol": "SAGE",
+            "price": 26.47,
+            "name": "Sage Therapeutics Inc.",
+            "currency": "GBP"
+        },
+        {
+            "availableShares": 0,
+            "symbol": "EQT",
+            "price": 16.95,
+            "name": "EQT Corp.",
+            "currency": "GBP"
+        },
+        {
+            "availableShares": 0,
+            "symbol": "UPST",
+            "price": 100.33,
+            "name": "Upstart Holdings Inc.",
+            "currency": "GBP"
+        },
+        {
+            "availableShares": 0,
+            "symbol": "BXP",
+            "price": 91.53,
+            "name": "Boston Properties Inc.",
+            "currency": "GBP"
+        },
+        {
+            "availableShares": 0,
+            "symbol": "DLR",
+            "price": 102.46,
+            "name": "Digital Realty Trust Inc.",
+            "currency": "GBP"
+        },
+        {
+            "availableShares": 0,
+            "symbol": "TRGP",
+            "price": 47.36,
+            "name": "Targa Resources Corp.",
+            "currency": "GBP"
+        }
+    ]
+}

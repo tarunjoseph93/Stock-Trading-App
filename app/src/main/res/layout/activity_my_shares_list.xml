@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white"
+    tools:context=".pages.MySharesList">
+
+    <RelativeLayout
+        android:id="@+id/stockDetailsHighlightBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/highlight_bar">
+
+        <TextView
+            android:id="@+id/myStockDetailsHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/poppins"
+            android:text="@string/my_stocks_page_header"
+            android:textColor="@color/off_white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/myStockSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stockDetailsHighlightBar"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/off_white"
+        android:drawableStart="@drawable/search_icon_purple"
+        android:hint="@string/search"
+        android:padding="10dp"
+        android:textColorHint="@color/gray_custom" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myStockRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/myStocksListOptionsLinearLayout"
+        android:layout_below="@+id/myStockSearch"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/custom_my_stock_row" />
+
+    <LinearLayout
+        android:id="@+id/myStocksListOptionsLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/myStocksHomeButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/home_white"
+            android:text="@string/go_home"
+            android:textColor="@color/off_white"
+            android:background="@color/purple_custom"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

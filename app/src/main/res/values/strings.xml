@@ -17,4 +17,13 @@
     <string name="list_my_shares">My Shares</string>
     <string name="currency_rate_placeholder_label">Rate:</string>
     <string name="currency_rate_placeholder">1</string>
+    <string name="my_stocks_page_header">My Stocks List</string>
+    <string name="my_stock_symbol_label">Stock Symbol: </string>
+    <string name="my_stock_symbol">Symbol here</string>
+    <string name="my_stock_price_label">Stock Price: </string>
+    <string name="my_stock_currency_label">Stock Currency: </string>
+    <string name="my_stock_available_shares_label">Shares you own: </string>
+    <string name="my_stock_total_price_label">Total: </string>
+    <string name="my_stock_sell_share_button">Sell Shares</string>
+    <string name="go_home">Home</string>
 </resources>

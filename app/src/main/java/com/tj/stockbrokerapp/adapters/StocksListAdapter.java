@@ -79,7 +79,7 @@ holder.itemView.setOnClickListener(new View.OnClickListener() {
     }
 
     public class StocksListHolder extends RecyclerView.ViewHolder{
-        TextView stockName, stockCurrency, stockPrice;
+        TextView stockName, stockPrice;
         public StocksListHolder(@NonNull View itemView) {
             super(itemView);
             stockName = bind.stockSymbol;
