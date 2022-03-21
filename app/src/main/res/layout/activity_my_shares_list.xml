@@ -84,7 +84,7 @@
             android:id="@+id/lowToHighButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/low_to_high"
+            android:text="@string/price_low_to_high"
             android:layout_weight="1"
             android:fontFamily="@font/poppins"
             android:textStyle="normal"
@@ -95,7 +95,40 @@
             android:id="@+id/highToLowButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/high_to_low"
+            android:text="@string/price_high_to_low"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:drawableStart="@drawable/high_to_low_purple"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sort2LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sortLinearLayout"
+        android:layout_above="@+id/myStockRecyclerView"
+        android:orientation="horizontal"
+        tools:ignore="NotSibling">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sharesLowToHighButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/shares_low_to_high"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:drawableStart="@drawable/low_to_high_purple"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sharesHighToLowButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/shares_high_to_low"
             android:layout_weight="1"
             android:fontFamily="@font/poppins"
             android:textStyle="normal"
@@ -109,7 +142,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/myStocksListOptionsLinearLayout"
-        android:layout_below="@+id/sortLinearLayout">
+        android:layout_below="@+id/sort2LinearLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/myStockRecyclerView"

@@ -26,8 +26,10 @@
     <string name="my_stock_total_price_label">Total: </string>
     <string name="my_stock_sell_share_button">Click to Sell Shares</string>
     <string name="go_home">Home</string>
-    <string name="low_to_high">Low to High</string>
-    <string name="high_to_low">High to Low</string>
+    <string name="price_low_to_high">Price - Low to High</string>
+    <string name="price_high_to_low">Price - High to Low</string>
+    <string name="shares_low_to_high">Shares - Low to High</string>
+    <string name="shares_high_to_low">Shares - High to Low</string>
     <string name="a_to_z">A to Z</string>
     <string name="z_to_a">Z to A</string>
 </resources>

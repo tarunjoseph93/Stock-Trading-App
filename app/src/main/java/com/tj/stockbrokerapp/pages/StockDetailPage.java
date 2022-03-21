@@ -155,6 +155,29 @@ public class StockDetailPage extends AppCompatActivity {
         });
     }
 
+    private void createJSONDataInFile() throws JSONException, IOException {
+        File file = new File(this.getFilesDir(), FILE_NAME);
+
+        JSONObject jsonObjectParent = new JSONObject();
+        JSONArray jsonArrayParent = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("availableShares", 1);
+        jsonObject.put("symbol", stockSymbol);
+        jsonObject.put("price", stockPrice);
+        jsonObject.put("name", stockName);
+        jsonObject.put("currency", stockCurrency);
+
+        jsonArrayParent.put(jsonObject);
+        jsonObjectParent.put("Stocks List", jsonArrayParent);
+
+        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(jsonObjectParent.toString());
+        bw.close();
+        fw.close();
+        bind.stockDetailsAvailableShares.setText(updateAvailableShares());
+    }
+
     private void autoConvertCurrency() {
         double rateFrom = Double.parseDouble(stockPrice);
         double rateTo = Double.parseDouble(currencyRateSelected);

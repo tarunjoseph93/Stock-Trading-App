@@ -36,6 +36,20 @@ public class MyStockModel{
         }
     };
 
+    public static Comparator<MyStockModel> myStocksSharesLowToHigh = new Comparator<MyStockModel>() {
+        @Override
+        public int compare(MyStockModel t1, MyStockModel t2) {
+            return t1.getAvailableShares() - t2.getAvailableShares();
+        }
+    };
+
+    public static Comparator<MyStockModel> myStocksSharesHighToLow = new Comparator<MyStockModel>() {
+        @Override
+        public int compare(MyStockModel t1, MyStockModel t2) {
+            return t2.getAvailableShares() - t1.getAvailableShares();
+        }
+    };
+
     public static Comparator<MyStockModel> myStocksAToZ = new Comparator<MyStockModel>() {
         @Override
         public int compare(MyStockModel t1, MyStockModel t2) {

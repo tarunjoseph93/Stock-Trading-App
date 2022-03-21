@@ -60,7 +60,7 @@ public class MySharesList extends AppCompatActivity implements SwipeRefreshLayou
 
                 try {
                     loadMySharesList();
-                } catch (IOException e) {
+                } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -71,7 +71,7 @@ public class MySharesList extends AppCompatActivity implements SwipeRefreshLayou
             public void onClick(View view) {
                 try {
                     loadMySharesList();
-                } catch (IOException e) {
+                } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -263,6 +263,130 @@ public class MySharesList extends AppCompatActivity implements SwipeRefreshLayou
             }
         });
 
+        bind.sharesLowToHighButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSwipeRefreshLayout.setRefreshing(true);
+
+                myStockModel = new ArrayList<>();
+
+                File file = new File(MySharesList.this.getFilesDir(), FILE_NAME);
+                FileReader fileReader = null;
+                BufferedReader bufferedReader = null;
+
+                String response = "";
+
+                if(file.exists()) {
+                    StringBuffer output = new StringBuffer();
+                    try {
+                        fileReader = new FileReader(file.getAbsolutePath());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    bufferedReader = new BufferedReader(fileReader);
+                    String line = "";
+
+                    while (true) {
+                        try {
+                            if (!((line = bufferedReader.readLine()) != null)) break;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        output.append(line + "\n");
+                    }
+
+                    response = output.toString();
+                    try {
+                        bufferedReader.close();
+                        fileReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        JSONObject jObjParent = new JSONObject(response);
+                        JSONArray jArrayParent = jObjParent.getJSONArray("Stocks List");
+                        for (int i = 0; i < jArrayParent.length(); i++) {
+                            MyStockModel myStockMod = new MyStockModel();
+                            JSONObject getMyStockItem = (JSONObject) jArrayParent.get(i);
+                            myStockMod.setStockName(getMyStockItem.getString("name"));
+                            myStockMod.setPrice(getMyStockItem.getDouble("price"));
+                            myStockMod.setSymbol(getMyStockItem.getString("symbol"));
+                            myStockMod.setCurrency(getMyStockItem.getString("currency"));
+                            myStockMod.setAvailableShares(getMyStockItem.getInt("availableShares"));
+                            myStockModel.add(myStockMod);
+                        }
+                    } catch(JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Collections.sort(myStockModel, MyStockModel.myStocksSharesLowToHigh);
+                setAdapter(myStockModel);
+            }
+        });
+
+        bind.sharesHighToLowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSwipeRefreshLayout.setRefreshing(true);
+
+                myStockModel = new ArrayList<>();
+
+                File file = new File(MySharesList.this.getFilesDir(), FILE_NAME);
+                FileReader fileReader = null;
+                BufferedReader bufferedReader = null;
+
+                String response = "";
+
+                if(file.exists()) {
+                    StringBuffer output = new StringBuffer();
+                    try {
+                        fileReader = new FileReader(file.getAbsolutePath());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    bufferedReader = new BufferedReader(fileReader);
+                    String line = "";
+
+                    while (true) {
+                        try {
+                            if (!((line = bufferedReader.readLine()) != null)) break;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        output.append(line + "\n");
+                    }
+
+                    response = output.toString();
+                    try {
+                        bufferedReader.close();
+                        fileReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        JSONObject jObjParent = new JSONObject(response);
+                        JSONArray jArrayParent = jObjParent.getJSONArray("Stocks List");
+                        for (int i = 0; i < jArrayParent.length(); i++) {
+                            MyStockModel myStockMod = new MyStockModel();
+                            JSONObject getMyStockItem = (JSONObject) jArrayParent.get(i);
+                            myStockMod.setStockName(getMyStockItem.getString("name"));
+                            myStockMod.setPrice(getMyStockItem.getDouble("price"));
+                            myStockMod.setSymbol(getMyStockItem.getString("symbol"));
+                            myStockMod.setCurrency(getMyStockItem.getString("currency"));
+                            myStockMod.setAvailableShares(getMyStockItem.getInt("availableShares"));
+                            myStockModel.add(myStockMod);
+                        }
+                    } catch(JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Collections.sort(myStockModel, MyStockModel.myStocksSharesHighToLow);
+                setAdapter(myStockModel);
+            }
+        });
+
         bind.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -297,7 +421,7 @@ public class MySharesList extends AppCompatActivity implements SwipeRefreshLayou
 
     }
 
-    private void loadMySharesList() throws IOException {
+    private void loadMySharesList() throws IOException, JSONException {
 
         mSwipeRefreshLayout.setRefreshing(true);
 
@@ -339,7 +463,47 @@ public class MySharesList extends AppCompatActivity implements SwipeRefreshLayou
             } catch(JSONException e) {
                 e.printStackTrace();
             }
-        } //add else load from assets over here
+        }
+        else {
+            String assetsString = loadJSONFromAsset();
+            JSONObject jsonObjectParent = new JSONObject(assetsString);
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(jsonObjectParent.toString());
+            bw.close();
+            fw.close();
+
+            StringBuffer output = new StringBuffer();
+            fileReader = new FileReader(file.getAbsolutePath());
+            bufferedReader = new BufferedReader(fileReader);
+            String line = "";
+
+            while ((line = bufferedReader.readLine()) != null) {
+                output.append(line + "\n");
+            }
+
+            response = output.toString();
+            bufferedReader.close();
+            fileReader.close();
+
+            try {
+                JSONObject jObjParent = new JSONObject(response);
+                JSONArray jArrayParent = jObjParent.getJSONArray("Stocks List");
+                for (int i = 0; i < jArrayParent.length(); i++) {
+                    MyStockModel myStockMod = new MyStockModel();
+                    JSONObject getMyStockItem = (JSONObject) jArrayParent.get(i);
+                    myStockMod.setStockName(getMyStockItem.getString("name"));
+                    myStockMod.setPrice(getMyStockItem.getDouble("price"));
+                    myStockMod.setSymbol(getMyStockItem.getString("symbol"));
+                    myStockMod.setCurrency(getMyStockItem.getString("currency"));
+                    myStockMod.setAvailableShares(getMyStockItem.getInt("availableShares"));
+                    myStockModel.add(myStockMod);
+                }
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
         Collections.sort(myStockModel, MyStockModel.myStocksAToZ);
         setAdapter(myStockModel);
 
@@ -352,11 +516,27 @@ public class MySharesList extends AppCompatActivity implements SwipeRefreshLayou
         myStockAdap.notifyDataSetChanged();
     }
 
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("MyStocks.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
     @Override
     public void onRefresh() {
         try {
             loadMySharesList();
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }
