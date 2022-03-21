@@ -1,6 +1,7 @@
 package com.tj.stockbrokerapp.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,13 +27,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class MySharesList extends AppCompatActivity {
+public class MySharesList extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private ActivityMySharesListBinding bind;
     private List<MyStockModel> myStockModel;
     private MyStockAdapter myStockAdap;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private static final String FILE_NAME = "MyStocks.json";
 
@@ -42,11 +45,223 @@ public class MySharesList extends AppCompatActivity {
         bind = ActivityMySharesListBinding.inflate(getLayoutInflater());
         setContentView(bind.getRoot());
 
-        try {
-            loadMySharesList();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mSwipeRefreshLayout = bind.swipeRefreshRecyclerView;
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_purple,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+        mSwipeRefreshLayout.post(new Runnable() {
+
+            @Override
+            public void run() {
+
+                mSwipeRefreshLayout.setRefreshing(true);
+
+                try {
+                    loadMySharesList();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        bind.aToZButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    loadMySharesList();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        bind.zToAButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSwipeRefreshLayout.setRefreshing(true);
+
+                myStockModel = new ArrayList<>();
+
+                File file = new File(MySharesList.this.getFilesDir(), FILE_NAME);
+                FileReader fileReader = null;
+                BufferedReader bufferedReader = null;
+
+                String response = "";
+
+                if(file.exists()) {
+                    StringBuffer output = new StringBuffer();
+                    try {
+                        fileReader = new FileReader(file.getAbsolutePath());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    bufferedReader = new BufferedReader(fileReader);
+                    String line = "";
+
+                    while (true) {
+                        try {
+                            if (!((line = bufferedReader.readLine()) != null)) break;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        output.append(line + "\n");
+                    }
+
+                    response = output.toString();
+                    try {
+                        bufferedReader.close();
+                        fileReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        JSONObject jObjParent = new JSONObject(response);
+                        JSONArray jArrayParent = jObjParent.getJSONArray("Stocks List");
+                        for (int i = 0; i < jArrayParent.length(); i++) {
+                            MyStockModel myStockMod = new MyStockModel();
+                            JSONObject getMyStockItem = (JSONObject) jArrayParent.get(i);
+                            myStockMod.setStockName(getMyStockItem.getString("name"));
+                            myStockMod.setPrice(getMyStockItem.getDouble("price"));
+                            myStockMod.setSymbol(getMyStockItem.getString("symbol"));
+                            myStockMod.setCurrency(getMyStockItem.getString("currency"));
+                            myStockMod.setAvailableShares(getMyStockItem.getInt("availableShares"));
+                            myStockModel.add(myStockMod);
+                        }
+                    } catch(JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Collections.sort(myStockModel, MyStockModel.myStocksZToA);
+                setAdapter(myStockModel);
+            }
+        });
+
+        bind.lowToHighButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSwipeRefreshLayout.setRefreshing(true);
+
+                myStockModel = new ArrayList<>();
+
+                File file = new File(MySharesList.this.getFilesDir(), FILE_NAME);
+                FileReader fileReader = null;
+                BufferedReader bufferedReader = null;
+
+                String response = "";
+
+                if(file.exists()) {
+                    StringBuffer output = new StringBuffer();
+                    try {
+                        fileReader = new FileReader(file.getAbsolutePath());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    bufferedReader = new BufferedReader(fileReader);
+                    String line = "";
+
+                    while (true) {
+                        try {
+                            if (!((line = bufferedReader.readLine()) != null)) break;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        output.append(line + "\n");
+                    }
+
+                    response = output.toString();
+                    try {
+                        bufferedReader.close();
+                        fileReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        JSONObject jObjParent = new JSONObject(response);
+                        JSONArray jArrayParent = jObjParent.getJSONArray("Stocks List");
+                        for (int i = 0; i < jArrayParent.length(); i++) {
+                            MyStockModel myStockMod = new MyStockModel();
+                            JSONObject getMyStockItem = (JSONObject) jArrayParent.get(i);
+                            myStockMod.setStockName(getMyStockItem.getString("name"));
+                            myStockMod.setPrice(getMyStockItem.getDouble("price"));
+                            myStockMod.setSymbol(getMyStockItem.getString("symbol"));
+                            myStockMod.setCurrency(getMyStockItem.getString("currency"));
+                            myStockMod.setAvailableShares(getMyStockItem.getInt("availableShares"));
+                            myStockModel.add(myStockMod);
+                        }
+                    } catch(JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Collections.sort(myStockModel, MyStockModel.myStocksLowToHigh);
+                setAdapter(myStockModel);
+            }
+        });
+
+        bind.highToLowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSwipeRefreshLayout.setRefreshing(true);
+
+                myStockModel = new ArrayList<>();
+
+                File file = new File(MySharesList.this.getFilesDir(), FILE_NAME);
+                FileReader fileReader = null;
+                BufferedReader bufferedReader = null;
+
+                String response = "";
+
+                if(file.exists()) {
+                    StringBuffer output = new StringBuffer();
+                    try {
+                        fileReader = new FileReader(file.getAbsolutePath());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    bufferedReader = new BufferedReader(fileReader);
+                    String line = "";
+
+                    while (true) {
+                        try {
+                            if (!((line = bufferedReader.readLine()) != null)) break;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        output.append(line + "\n");
+                    }
+
+                    response = output.toString();
+                    try {
+                        bufferedReader.close();
+                        fileReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        JSONObject jObjParent = new JSONObject(response);
+                        JSONArray jArrayParent = jObjParent.getJSONArray("Stocks List");
+                        for (int i = 0; i < jArrayParent.length(); i++) {
+                            MyStockModel myStockMod = new MyStockModel();
+                            JSONObject getMyStockItem = (JSONObject) jArrayParent.get(i);
+                            myStockMod.setStockName(getMyStockItem.getString("name"));
+                            myStockMod.setPrice(getMyStockItem.getDouble("price"));
+                            myStockMod.setSymbol(getMyStockItem.getString("symbol"));
+                            myStockMod.setCurrency(getMyStockItem.getString("currency"));
+                            myStockMod.setAvailableShares(getMyStockItem.getInt("availableShares"));
+                            myStockModel.add(myStockMod);
+                        }
+                    } catch(JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Collections.sort(myStockModel, MyStockModel.myStocksHighToLow);
+                setAdapter(myStockModel);
+            }
+        });
 
         bind.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,13 +294,19 @@ public class MySharesList extends AppCompatActivity {
                 MySharesList.this.startActivity(intent);
             }
         });
+
     }
 
     private void loadMySharesList() throws IOException {
+
+        mSwipeRefreshLayout.setRefreshing(true);
+
         myStockModel = new ArrayList<>();
+
         File file = new File(this.getFilesDir(), FILE_NAME);
         FileReader fileReader = null;
         BufferedReader bufferedReader = null;
+
         String response = "";
 
         if(file.exists()) {
@@ -100,6 +321,7 @@ public class MySharesList extends AppCompatActivity {
 
             response = output.toString();
             bufferedReader.close();
+            fileReader.close();
 
             try {
                 JSONObject jObjParent = new JSONObject(response);
@@ -118,9 +340,24 @@ public class MySharesList extends AppCompatActivity {
                 e.printStackTrace();
             }
         } //add else load from assets over here
+        Collections.sort(myStockModel, MyStockModel.myStocksAToZ);
+        setAdapter(myStockModel);
 
-        myStockAdap = new MyStockAdapter(MySharesList.this, myStockModel);
-        bind.myStockRecyclerView.setAdapter(myStockAdap);
     }
 
+    private void setAdapter(List<MyStockModel> myStocksList) {
+        myStockAdap = new MyStockAdapter(MySharesList.this, myStocksList);
+        bind.myStockRecyclerView.setAdapter(myStockAdap);
+        mSwipeRefreshLayout.setRefreshing(false);
+        myStockAdap.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefresh() {
+        try {
+            loadMySharesList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

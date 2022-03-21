@@ -12,8 +12,9 @@ import android.widget.Toast;
 import com.tj.stockbrokerapp.adapters.StocksListAdapter;
 import com.tj.stockbrokerapp.databinding.ActivityMainBinding;
 import com.tj.stockbrokerapp.models.StockModel;
-import com.tj.stockbrokerapp.services.StocksDataAPI;
+import com.tj.stockbrokerapp.services.RealTimeStocksAPI;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +47,70 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        bind.aToZButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadStocksList();
+            }
+        });
+
+        bind.zToAButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final RealTimeStocksAPI realTimeStocksAPI = new RealTimeStocksAPI(MainActivity.this);
+                realTimeStocksAPI.getAllRealStocksData(new RealTimeStocksAPI.VolleyResponseListenerGetRealTimeStocksData() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(MainActivity.this, "Error: " + message.toString(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(List<StockModel> stockListMods) {
+                        Collections.sort(stockListMods, StockModel.myStocksZToA);
+                        setAdapter(stockListMods);
+                    }
+                });
+            }
+        });
+
+        bind.lowToHighButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final RealTimeStocksAPI realTimeStocksAPI = new RealTimeStocksAPI(MainActivity.this);
+                realTimeStocksAPI.getAllRealStocksData(new RealTimeStocksAPI.VolleyResponseListenerGetRealTimeStocksData() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(MainActivity.this, "Error: " + message.toString(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(List<StockModel> stockListMods) {
+                        Collections.sort(stockListMods, StockModel.myStocksLowToHigh);
+                        setAdapter(stockListMods);
+                    }
+                });
+            }
+        });
+
+        bind.highToLowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final RealTimeStocksAPI realTimeStocksAPI = new RealTimeStocksAPI(MainActivity.this);
+                realTimeStocksAPI.getAllRealStocksData(new RealTimeStocksAPI.VolleyResponseListenerGetRealTimeStocksData() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(MainActivity.this, "Error: " + message.toString(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(List<StockModel> stockListMods) {
+                        Collections.sort(stockListMods, StockModel.myStocksHighToLow);
+                        setAdapter(stockListMods);
+                    }
+                });
+            }
+        });
+
         bind.stocksListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,18 +122,24 @@ public class MainActivity extends AppCompatActivity {
    }
 
     private void loadStocksList() {
-        final StocksDataAPI stocksAPI = new StocksDataAPI(MainActivity.this);
-        stocksAPI.getAllStocksList(new StocksDataAPI.VolleyResponseListenerGetStocksList() {
+        final RealTimeStocksAPI realTimeStocksAPI = new RealTimeStocksAPI(MainActivity.this);
+        realTimeStocksAPI.getAllRealStocksData(new RealTimeStocksAPI.VolleyResponseListenerGetRealTimeStocksData() {
             @Override
             public void onError(String message) {
-                Toast.makeText(MainActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Error: " + message.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onResponse(List<StockModel> stockListMods) {
-                stockAdap = new StocksListAdapter(MainActivity.this, stockListMods);
-                bind.stockRecyclerView.setAdapter(stockAdap);
+                Collections.sort(stockListMods, StockModel.myStocksAToZ);
+                setAdapter(stockListMods);
             }
         });
+    }
+
+    private void setAdapter(List<StockModel> stockListMods) {
+        stockAdap = new StocksListAdapter(MainActivity.this, stockListMods);
+        bind.stockRecyclerView.setAdapter(stockAdap);
+        stockAdap.notifyDataSetChanged();
     }
 }

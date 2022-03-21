@@ -1,6 +1,9 @@
 package com.tj.stockbrokerapp.models;
 
-public class MyStockModel {
+import java.util.Comparator;
+import java.util.Locale;
+
+public class MyStockModel{
     public String stockName;
     public double price;
     public String currency;
@@ -17,6 +20,36 @@ public class MyStockModel {
         this.symbol = symbol;
         this.availableShares = availableShares;
     }
+
+
+    public static Comparator<MyStockModel> myStocksLowToHigh = new Comparator<MyStockModel>() {
+        @Override
+        public int compare(MyStockModel t1, MyStockModel t2) {
+            return (int) (t1.getPrice() - t2.getPrice());
+        }
+    };
+
+    public static Comparator<MyStockModel> myStocksHighToLow = new Comparator<MyStockModel>() {
+        @Override
+        public int compare(MyStockModel t1, MyStockModel t2) {
+            return (int) (t2.getPrice() - t1.getPrice());
+        }
+    };
+
+    public static Comparator<MyStockModel> myStocksAToZ = new Comparator<MyStockModel>() {
+        @Override
+        public int compare(MyStockModel t1, MyStockModel t2) {
+            return t1.getStockName().toLowerCase().compareTo(t2.getStockName().toLowerCase());
+        }
+    };
+
+    public static Comparator<MyStockModel> myStocksZToA = new Comparator<MyStockModel>() {
+        @Override
+        public int compare(MyStockModel t1, MyStockModel t2) {
+            return t2.getStockName().toLowerCase().compareTo(t1.getStockName().toLowerCase());
+        }
+    };
+
 
     public String getStockName() {
         return stockName;
@@ -57,4 +90,5 @@ public class MyStockModel {
     public void setAvailableShares(int availableShares) {
         this.availableShares = availableShares;
     }
+
 }

@@ -44,23 +44,25 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.St
         StockModel stockMod = stocksList.get(position);
         String stockSymbol = stockMod.symbol;
         String stockName = stockMod.name;
-        String stockPrice = Double.toString(stockMod.price);
-        String stockCurrency = stockMod.currency;
+        double oldStockPrice = stockMod.price;
+        double newStockPrice = oldStockPrice * 0.746;
+        String stockPrice = String.format("%.2f",newStockPrice);
+        String stockCurrency = "GBP";
 
         holder.stockName.setText(stockSymbol);
         holder.stockPrice.setText("£" + stockPrice);
 
-holder.itemView.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(con, StockDetailPage.class);
-        intent.putExtra("stockSymbol", stockSymbol);
-        intent.putExtra("stockName", stockName);
-        intent.putExtra("stockPrice", stockPrice);
-        intent.putExtra("stockCurrency", stockCurrency);
-        con.startActivity(intent);
-    }
-});
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(con, StockDetailPage.class);
+                intent.putExtra("stockSymbol", stockSymbol);
+                intent.putExtra("stockName", stockName);
+                intent.putExtra("stockPrice", stockPrice);
+                intent.putExtra("stockCurrency", stockCurrency);
+                con.startActivity(intent);
+            }
+        });
 
 
     }

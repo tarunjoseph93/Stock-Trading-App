@@ -1,8 +1,11 @@
 package com.tj.stockbrokerapp.models;
 
+import java.util.Comparator;
+
 public class StockModel {
     public String name;
     public double price;
+
     public String currency;
     public String symbol;
 
@@ -15,6 +18,34 @@ public class StockModel {
         this.currency = currency;
         this.symbol = symbol;
     }
+
+    public static Comparator<StockModel> myStocksLowToHigh = new Comparator<StockModel>() {
+        @Override
+        public int compare(StockModel t1, StockModel t2) {
+            return (int) (t1.getPrice() - t2.getPrice());
+        }
+    };
+
+    public static Comparator<StockModel> myStocksHighToLow = new Comparator<StockModel>() {
+        @Override
+        public int compare(StockModel t1, StockModel t2) {
+            return (int) (t2.getPrice() - t1.getPrice());
+        }
+    };
+
+    public static Comparator<StockModel> myStocksAToZ = new Comparator<StockModel>() {
+        @Override
+        public int compare(StockModel t1, StockModel t2) {
+            return t1.getName().toLowerCase().compareTo(t2.getName().toLowerCase());
+        }
+    };
+
+    public static Comparator<StockModel> myStocksZToA = new Comparator<StockModel>() {
+        @Override
+        public int compare(StockModel t1, StockModel t2) {
+            return t2.getName().toLowerCase().compareTo(t1.getName().toLowerCase());
+        }
+    };
 
     public String getName() {
         return name;

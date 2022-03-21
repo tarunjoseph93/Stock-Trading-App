@@ -40,16 +40,78 @@
         android:padding="10dp"
         android:textColorHint="@color/gray_custom" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/stockRecyclerView"
+    <LinearLayout
+        android:id="@+id/sortStocksLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/stockSearch"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/custom_stock_row" />
+        android:layout_above="@+id/stockRecyclerView"
+        android:orientation="horizontal"
+        tools:ignore="NotSibling">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/aToZButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/a_to_z"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:drawableStart="@drawable/low_to_high_purple"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/zToAButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/z_to_a"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:drawableStart="@drawable/high_to_low_purple"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/lowToHighButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/low_to_high"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:drawableStart="@drawable/low_to_high_purple"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/highToLowButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/high_to_low"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:drawableStart="@drawable/high_to_low_purple"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sortStocksLinearLayout"
+        android:layout_above="@+id/stocksListOptionsLinearLayout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stockRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/custom_stock_row" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/stocksListOptionsLinearLayout"
